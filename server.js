@@ -1,24 +1,23 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const connectDB = require('./hospital-api/config/db');
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import cors from "cors";
+import connectDB from "./config/db.js";
 
-// Load environment variables
-dotenv.config();
+dotenv.config(); // load .env variables
+
+const app = express();
+app.use(cors());
+app.use(express.json());
 
 // Connect to MongoDB
 connectDB();
 
-const app = express();
+// Example route
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
 
-// Middleware 
-app.use(cors());
-app.use(express.json());
-
-// Routes
-app.use('/api/doctors', require('./hospital-api/routes/doctorRoutes'));
-app.use('/api/patients', require('./hospital-api/routes/patientRoutes'));
-
+// Start server
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
